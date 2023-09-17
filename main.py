@@ -26,7 +26,6 @@ fig = plt.figure()
 delay = 0.1
 
 # Classes
-
 class Prey():
     def __init__(self, alive, x, y, speed, vision, consumption, attack):
         self.alive = alive
@@ -37,17 +36,19 @@ class Prey():
         self.consumption = consumption
         self.attack = attack
         self.normalize()
-    def setvalues(self, speed, vision, consumption, attack):
+    def setvalues(self, alive, speed, vision, consumption, attack):
+        self.alive = alive
         self.speed = speed
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
     def normalize(self):
+        alive = self.alive
         speed = self.speed / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         vision = self.vision / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         consumption = self.consumption / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         attack = self.attack / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
-        self.setvalues(speed, vision, consumption, attack)
+        self.setvalues(alive, speed, vision, consumption, attack)
 
 
 class Predator():
@@ -61,24 +62,31 @@ class Predator():
         self.attack = attack
         self.normalize()
 
-    def setvalues(self, speed, vision, consumption, attack):
+    def setvalues(self, alive, speed, vision, consumption, attack):
+        self.alive = alive
         self.speed = speed
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
 
     def normalize(self):
+        alive = self.alive
         speed = self.speed / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
         vision = self.vision / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
         consumption = self.consumption / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
         attack = self.attack / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
-        self.setvalues(speed, vision, consumption, attack)
+        self.setvalues(alive, speed, vision, consumption, attack)
 
 class Plant():
     def __init__(self, alive, x, y):
         self.alive = alive
         self.x = x
         self.y = y
+    def setvalues(self, alive, x, y):
+        self.alive = alive
+        self.x = x
+        self.y = y
+
 
 def InitializeObjects():
     for x in range(numprey):
@@ -138,7 +146,6 @@ InitializeObjects()
 while True:
     # TODO: Implement the whole logic
     print("I am running")
-    InitializeObjects()
     Plot()
 
     time.sleep(delay)
