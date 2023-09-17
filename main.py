@@ -20,6 +20,8 @@ aliveprobprey  = 0.1
 aliveprobpred  = 0.1
 aliveprobplant = 0.5
 
+defaultenergy = 1.5
+
 plt.ion()
 fig = plt.figure()
 
@@ -27,7 +29,7 @@ delay = 0.1
 
 # Classes
 class Prey():
-    def __init__(self, alive, x, y, speed, vision, consumption, attack):
+    def __init__(self, alive, x, y, speed, vision, consumption, attack, energy):
         self.alive = alive
         self.x = x
         self.y = y
@@ -35,24 +37,27 @@ class Prey():
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
+        self.energy = energy
         self.normalize()
-    def setvalues(self, alive, speed, vision, consumption, attack):
+    def setvalues(self, alive, speed, vision, consumption, attack, energy):
         self.alive = alive
         self.speed = speed
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
+        self.energy = energy
     def normalize(self):
         alive = self.alive
         speed = self.speed / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         vision = self.vision / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         consumption = self.consumption / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         attack = self.attack / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
-        self.setvalues(alive, speed, vision, consumption, attack)
+        energy = self.energy
+        self.setvalues(alive, speed, vision, consumption, attack, energy)
 
 
 class Predator():
-    def __init__(self, alive, x, y, speed, vision, consumption, attack):
+    def __init__(self, alive, x, y, speed, vision, consumption, attack, energy):
         self.alive = alive
         self.x = x
         self.y = y
@@ -60,14 +65,16 @@ class Predator():
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
+        self.energy = energy
         self.normalize()
 
-    def setvalues(self, alive, speed, vision, consumption, attack):
+    def setvalues(self, alive, speed, vision, consumption, attack, energy):
         self.alive = alive
         self.speed = speed
         self.vision = vision
         self.consumption = consumption
         self.attack = attack
+        self.energy = energy
 
     def normalize(self):
         alive = self.alive
@@ -75,7 +82,8 @@ class Predator():
         vision = self.vision / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
         consumption = self.consumption / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
         attack = self.attack / (self.speed + self.vision + self.consumption + self.attack) * maxstatpred
-        self.setvalues(alive, speed, vision, consumption, attack)
+        energy = self.energy
+        self.setvalues(alive, speed, vision, consumption, attack, energy)
 
 class Plant():
     def __init__(self, alive, x, y):
@@ -92,12 +100,12 @@ def InitializeObjects():
     for x in range(numprey):
         prey[x] = Prey(random.random() <= aliveprobprey, random.random() * lengthx, random.random() * lengthy,
                        random.random() * maxspeed, random.random() * maxvision, random.random() * maxconsumption,
-                       random.random() * maxattack)
+                       random.random() * maxattack, defaultenergy)
 
     for x in range(numpredator):
         predator[x] = Predator(random.random() <= aliveprobpred, random.random() * lengthx, random.random() * lengthy,
                                random.random() * maxspeed, random.random() * maxvision,
-                               random.random() * maxconsumption, random.random() * maxattack)
+                               random.random() * maxconsumption, random.random() * maxattack, defaultenergy)
 
     for x in range(numplant):
         plant[x] = Plant(random.random() <= aliveprobplant, random.random() * lengthx, random.random() * lengthy)
