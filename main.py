@@ -22,12 +22,13 @@ aliveprobplant = 0.5
 
 defaultenergy = 1.5
 
+day = 1
+
 plt.ion()
 fig = plt.figure()
 
 delay = 0.1
 
-# Classes
 class Prey():
     def __init__(self, alive, x, y, speed, vision, consumption, attack, energy):
         self.alive = alive
@@ -54,7 +55,6 @@ class Prey():
         attack = self.attack / (self.speed + self.vision + self.consumption + self.attack) * maxstatprey
         energy = self.energy
         self.setvalues(alive, speed, vision, consumption, attack, energy)
-
 
 class Predator():
     def __init__(self, alive, x, y, speed, vision, consumption, attack, energy):
@@ -156,7 +156,9 @@ while True:
     print("I am running")
     Plot()
 
+    day = day + 1
     time.sleep(delay)
 
 # End of program
+# TODO: Implement break conditions in main loop so we can actually reach this point
 print("Program finished")
