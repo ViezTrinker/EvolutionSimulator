@@ -20,6 +20,11 @@ aliveprobprey  = 0.1
 aliveprobpred  = 0.1
 aliveprobplant = 0.5
 
+plt.ion()
+fig = plt.figure()
+
+delay = 0.1
+
 # Classes
 
 class Prey():
@@ -89,24 +94,54 @@ def InitializeObjects():
     for x in range(numplant):
         plant[x] = Plant(random.random() <= aliveprobplant, random.random() * lengthx, random.random() * lengthy)
 
-# Create objects
+def GetPositions():
+    for x in range(numprey):
+        preyposx[x] = prey[x].x * prey[x].alive
+        preyposy[x] = prey[x].y * prey[x].alive
+    for x in range(numpredator):
+        predposx[x] = predator[x].x * predator[x].alive
+        predposy[x] = predator[x].y * predator[x].alive
+    for x in range(numplant):
+        plantposx[x] = plant[x].x * plant[x].alive
+        plantposy[x] = plant[x].y * plant[x].alive
+
+def Plot():
+    GetPositions()
+    fig.clear()
+    plt.title("Evolution Simulator")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.xlim(0, lengthx)
+    plt.ylim(0, lengthy)
+    plt.grid()
+    plt.plot(preyposx, preyposy, 'bo', markersize=2)
+    plt.plot(predposx, predposy, 'rx', markersize=2)
+    plt.plot(plantposx, plantposy, 'gs', markersize=2)
+    fig.canvas.draw()
+    fig.canvas.flush_events()
+
+# START #
+preyposx  = [0] * numprey
+predposx  = [0] * numpredator
+plantposx = [0] * numplant
+preyposy  = [0] * numprey
+predposy  = [0] * numpredator
+plantposy = [0] * numplant
 
 prey     = [0] * numprey
 predator = [0] * numpredator
 plant    = [0] * numplant
 
-# START #
 InitializeObjects()
+
 # Main Loop
 while True:
     # TODO: Implement the whole logic
     print("I am running")
+    InitializeObjects()
+    Plot()
 
-    # TODO: Plot graph in the right way
-    # plt.plot([1, 2])
-    # plt.show()
+    time.sleep(delay)
 
-    time.sleep(1)
-
-# End of Program
+# End of program
 print("Program finished")
