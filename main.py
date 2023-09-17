@@ -8,6 +8,10 @@ numplant     = 2000
 lenghtx      = 100
 lengthy      = 100
 
+aliveprobprey  = 0.1
+aliveprobpred  = 0.1
+aliveprobplant = 0.5
+
 # Classes
 
 class Prey():
